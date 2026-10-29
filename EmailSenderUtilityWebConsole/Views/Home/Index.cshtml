@@ -1,0 +1,100 @@
+﻿@model EmailSenderUtilityWebConsole.Domain.Lead
+@{
+    ViewBag.Title = "Home";
+}
+
+<style>
+    #fileInputContainer {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .custom-file-label {
+        margin: 0;
+        padding: 6px 16px;
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        width: auto;
+        display: inline-block;
+    }
+
+    .custom-file-input {
+        position: absolute;
+        opacity: 0;
+        width: 120px; 
+        height: 34px;
+        cursor: pointer;
+    }
+
+    #fileInputContainer::after {
+        content: "No file chosen";
+        font-size: 14px;
+        color: #444;
+    }
+
+</style>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col" id="categoryDropdownContainer" style="display:none;">
+                            @Html.DropDownListFor(m => m.EmailTemplate, ViewBag.EmailTemplates as List<SelectListItem>, "Select Email Template", new { @class = "form-control", id = "categoryDropdown" })
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <div class="custom-file" id="fileInputContainer">
+                                <label class="custom-file-label" for="importFile">Browse</label>
+                                <input type="file" class="custom-file-input" id="importFile">
+                            </div>
+                        </div>
+                        <div class="col text-right">
+                            <a id="btn-upload" href="javascript:void(0)" class="btn btn-success float-end"><i class="fa fa-upload"></i> Send Email</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="tblImportInvoice" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Company Name</th>
+                        <th>Contact Person</th>
+                        <th>Category</th>
+                        <th>Phone Number</th>
+                        <th>Email Address</th>
+                        <th>Website</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center text-danger" colspan="6">
+                            There is currently no content to display
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="@Url.Content("~/custom-js/import.js")"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#importFile").on("change", function () {
+
+            if (this.files.length > 0) {
+                $("#fileInputContainer").hide();
+                $("#categoryDropdownContainer").show();
+            }
+        });
+    });
+</script>
